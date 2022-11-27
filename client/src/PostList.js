@@ -9,7 +9,7 @@ export default ({ reloadCount }) => {
   const [createCommentCount, setCreateCommentCount] = useState(1);
 
   const fetchPosts = async () => {
-    const res = await axios.get("http://kube.mini/posts");
+    const res = await axios.get("http://posts.com/posts");
 
     setPosts(res.data);
   };
@@ -27,7 +27,7 @@ export default ({ reloadCount }) => {
       >
         <div className="card-body">
           <h3>{post.title}</h3>
-          <CommentList comments={post.comments} />
+          <CommentList comments={post.comments || []} />
           <CommentCreate
             postId={post.id}
             onCreate={() => setCreateCommentCount(createCommentCount + 1)}

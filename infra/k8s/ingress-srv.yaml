@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-srv
@@ -7,22 +7,51 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-    - host: kube.mini
+    - host: posts.com
       http:
         paths:
           - path: /posts/create
+            pathType: Prefix
             backend:
-              serviceName: posts-srv
-              servicePort: 4000
+              service:
+                name: posts-srv
+                port:
+                  number: 4000
           - path: /posts
+            pathType: Prefix
             backend:
-              serviceName: query-srv
-              servicePort: 4002
+              service:
+                name: posts-srv
+                port:
+                  number: 4000
           - path: /posts/?(.*)/comments
+            pathType: Prefix
             backend:
-              serviceName: comments-srv
-              servicePort: 4001
+              service:
+                name: comments-srv
+                port:
+                  number: 4001
           - path: /?(.*)
+            pathType: Prefix
             backend:
-              serviceName: client-srv
-              servicePort: 3000
+              service:
+                name: client-srv
+                port: 
+                  number: 3000
+    - host: kube.mini
+      http:
+        paths:
+          - path: /jmxmp
+            pathType: Exact
+            backend:
+              service:
+                name: jmx-test-app
+                port:
+                  number: 5678
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: jmx-test-app
+                port:
+                  number: 8080

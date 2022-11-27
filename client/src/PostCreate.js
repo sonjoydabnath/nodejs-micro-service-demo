@@ -8,7 +8,7 @@ export default ({ onCreate }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    await axios.post("http://kube.mini/posts/create", {
+    await axios.post("http://posts.com/posts/create", {
       title,
     });
 
